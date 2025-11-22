@@ -100,7 +100,7 @@ services:
       - "8081:8080"
     restart: unless-stopped
 
-  qbittorrent:
+  qbittorrent: #https://hotio.dev/containers/qbittorrent/#__tabbed_1_2
     image: ghcr.io/hotio/qbittorrent
     container_name: qbittorrent
     hostname: qbittorrent 
