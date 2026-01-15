@@ -1,0 +1,29 @@
+---
+# https://github.com/Lissy93/dashy/blob/master/docker-compose.yml
+version: "3.8"
+services:
+  dashy:
+    container_name: Dashy
+    # Pull latest image from DockerHub
+    image: lissy93/dashy
+    volumes:
+       - /data/configs/dashy/config/my-config.yml:/app/user-data/conf.yml
+       - /data/configs/dashy/item-icons:/app/user-data/item-icons/
+       - /data/configs/dashy/certs:/app/user-data/certs
+    # Set port that web service will be served on. Keep container port as 8080
+    ports:
+      - 4000:8080
+    environment:
+      - NODE_ENV=production
+      - UID=1000
+      - GID=1000
+      - NODE_EXTRA_CA_CERTS=/app/user-data/certs/pfsense2.pem
+    # Specify restart policy
+    restart: unless-stopped
+    # Configure healthchecks
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
